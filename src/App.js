@@ -1,23 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
-  const [filter, setFilter] = useState('all');
-
-  // Load tasks from local storage when the component mounts
-  useEffect(() => {
-    const storedTasks = localStorage.getItem('tasks');
-    if (storedTasks) {
-      setTasks(JSON.parse(storedTasks));
-    }
-  }, []);
-
-  // Save tasks to local storage whenever the tasks state changes
-  useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-  }, [tasks]);
+  const [filter, setFilter] = useState('all'); // Add filter state
 
   const handleAddTask = () => {
     if (newTask.trim() !== '') {
@@ -38,6 +25,7 @@ function App() {
     setTasks(updatedTasks);
   };
 
+  // Filter tasks based on the filter state
   const filteredTasks = tasks.filter((task) => {
     if (filter === 'completed') {
       return task.completed;
@@ -65,6 +53,7 @@ function App() {
           <button onClick={handleAddTask}>Add</button>
         </div>
 
+        {/* Style the filter buttons */}
         <div className="filter-buttons">
           <button
             className={filter === 'all' ? 'active' : ''}
